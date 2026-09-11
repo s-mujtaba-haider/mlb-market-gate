@@ -3,9 +3,10 @@
 This is the production data path. It is written against the live API shape and
 caches every response to disk so a backfill is re-runnable and a re-run costs
 nothing. It could not be executed while this repo was built -- the build
-environment has no network egress -- which is exactly why `simulate.py` exists
-and why the gate is validated against generated data with known ground truth
-rather than against data where nobody knows the right answer.
+environment could not reach the Stats API and had no odds vendor -- which is
+exactly why `simulate.py` exists, and why the gate is validated against
+generated data with known ground truth rather than against data where nobody
+knows the right answer.
 
 What this module gives you, and what it does not:
 

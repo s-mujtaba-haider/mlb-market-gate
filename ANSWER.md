@@ -26,7 +26,8 @@
 
 ## 1. Project
 
-**`<your GitHub URL here>`** — an MLB market validation gate. Eight markets in,
+**https://github.com/s-mujtaba-haider/mlb-market-gate** — an MLB market
+validation gate. Eight markets in,
 PASS / FAIL / VETO out, with a named cause and a specific improvement lever for
 every failure.
 
@@ -47,7 +48,8 @@ Three things in it that are relevant to Milestone 1:
   code.
 
 Data caveat stated up front in the README: it's generated, because the machine
-had no network egress. The real MLB Stats API ingestor is written, tested
+had no reachable sports data API and no odds vendor. The real MLB Stats API
+ingestor is written, tested
 against response fixtures, and handles the settlement cases that actually
 corrupt backfills — pushes, rain-shortened games voiding first-five, walk-offs,
 doubleheaders sharing a date and both team names.
@@ -56,7 +58,6 @@ doubleheaders sharing a date and both team names.
 
 ## Notes before sending
 
-- [ ] Push the repo and replace `<your GitHub URL here>` above.
 - [ ] The answer is the part they'll read first — it's written to be pasted
       directly into the DM or WhatsApp. Send it as prose, drop the `>` marks.
 - [ ] WhatsApp is text only per the posting: 0336 8468248.

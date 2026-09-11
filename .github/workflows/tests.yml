@@ -1,0 +1,61 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m pytest tests/ -q
+
+      # The generated dataset is gitignored, so this also proves a clean
+      # checkout can rebuild it and run the gate end to end.
+      - name: Build dataset and run the gate
+        run: |
+          python scripts/01_build_dataset.py
+          python scripts/02_run_gate.py
+          python scripts/03_roi_significance.py
+
+      - name: Check the gate's verdicts did not drift
+        run: |
+          python - <<'EOF'
+          import csv
+          expected = {
+              "ml_home": "FAIL",
+              "rl_home_-1.5": "PASS",
+              "total_over": "FAIL",
+              "f5_ml_home": "PASS",
+              "nrfi": "FAIL",
+              "team_total_over_home": "VETO",
+              "pitcher_ks_over": "FAIL",
+              "batter_hits_over_0.5": "FAIL",
+          }
+          with open("reports/gate_results.csv", newline="", encoding="utf-8") as fh:
+              got = {r["market"]: r["verdict"] for r in csv.DictReader(fh)}
+          assert got == expected, f"verdicts drifted:\n  got      {got}\n  expected {expected}"
+          print(f"all {len(got)} verdicts as expected")
+          EOF

@@ -1,5 +1,7 @@
 # MLB market validation gate
 
+[![tests](https://github.com/s-mujtaba-haider/mlb-market-gate/actions/workflows/tests.yml/badge.svg)](https://github.com/s-mujtaba-haider/mlb-market-gate/actions/workflows/tests.yml)
+
 A backtesting harness that decides whether a betting market is good enough to
 ship, and refuses to be fooled by the usual ways a backtest lies.
 
@@ -27,7 +29,8 @@ pick fires. Every statistical check agrees it is brilliant. It is worthless.
 ## The honest bit, up front
 
 **The data in this repo is generated, not real.** The machine this was built on
-has no network egress, so no odds vendor and no Stats API pull was possible.
+had no reachable sports data API and no odds vendor, so neither a Stats API
+pull nor a price backfill was possible.
 
 Rather than hand-wave that, I turned it into the design:
 `src/mlbgate/simulate.py` generates each market with a **known pathology** —
@@ -228,3 +231,7 @@ ship/kill decision; `market_report.md` is the artifact a reviewer reads.
 Swap `simulate.py` for `ingest_statsapi.py` plus an odds vendor and the rest of
 the pipeline is unchanged — which is the reason the data layer is behind a
 seam in the first place.
+
+---
+
+MIT licensed. See `LICENSE`.
